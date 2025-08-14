@@ -7,6 +7,7 @@ public class HealthViewText : HealthView
 
     public override void UpdateHealthView(float healthCount, float maxHealthCount)
     {
-        _haelthCountText.text = $"{healthCount} / {maxHealthCount}";
+        if (healthCount >= 0)
+            _haelthCountText.text = $"{healthCount} / {maxHealthCount}";
     }
 }

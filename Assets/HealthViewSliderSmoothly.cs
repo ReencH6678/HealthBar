@@ -15,11 +15,11 @@ public class HealthViewSliderSmoothly : HealthView
 
     public override void UpdateHealthView(float healthCount, float maxHealthCount)
     {
-        StopCoroutine(SmothLine(healthCount, maxHealthCount));
-        StartCoroutine(SmothLine(healthCount, maxHealthCount));
+        StopCoroutine(SmoothHealthTransition(healthCount, maxHealthCount));
+        StartCoroutine(SmoothHealthTransition(healthCount, maxHealthCount));
     }
 
-    private IEnumerator SmothLine(float healthCount, float maxHealCount)
+    private IEnumerator SmoothHealthTransition(float healthCount, float maxHealCount)
     {
         float divisor = 100;
         float targetVelue = healthCount / divisor;
@@ -29,7 +29,7 @@ public class HealthViewSliderSmoothly : HealthView
 
         var waitForSeconds = new WaitForSeconds(_deley);
 
-        _slider.fillRect.gameObject.SetActive(healthCount <= 0);
+        _slider.fillRect.gameObject.SetActive(healthCount > 0);
 
         if (healthCount <= maxHealCount)
         {

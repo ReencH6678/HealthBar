@@ -26,6 +26,6 @@ public class HealthViewSlider : HealthView
         float divisor = 100;
 
         _slider.value = count / divisor;
-        _slider.fillRect.gameObject.SetActive(count <= 0);
+        _slider.fillRect.gameObject.SetActive(count > 0);
     }
 }
