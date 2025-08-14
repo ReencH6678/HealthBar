@@ -19,6 +19,8 @@ public class HealthViewSliderSmoothly : HealthViewSlider
         float step = 0.01f;
         float stepsCount = Mathf.Abs(targetVelue - _slider.value) / step;
 
+        var waitForSeconds = new WaitForSeconds(_deley);
+
         if (healthCount <= maxHealCount)
         {
             for (int i = 0; i <= stepsCount; i++)
@@ -27,7 +29,7 @@ public class HealthViewSliderSmoothly : HealthViewSlider
 
                 UpdateHealthVisibility(_slider.value);
 
-                yield return new WaitForSeconds(_deley);
+                yield return waitForSeconds;
             }
         }
     }
