@@ -2,10 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Slider))]
-public class HealthViewSlider : MonoBehaviour
+public class HealthViewSlider : HealthView
 {
-    [SerializeField] protected Health _health;
-    protected Slider _slider;
+    private Slider _slider;
 
     private void Awake()
     {
@@ -14,27 +13,19 @@ public class HealthViewSlider : MonoBehaviour
 
     private void OnEnable()
     {
-        _health.OnHealthChange += UpdateHealthView;
+        _health.Changed += UpdateHealthView;
     }
 
     private void OnDisable()
     {
-        _health.OnHealthChange -= UpdateHealthView;
+        _health.Changed -= UpdateHealthView;
     }
 
-    virtual public void UpdateHealthView(float healthCount, float maxHealthCount)
+    public override void UpdateHealthView(float count, float maxCount)
     {
         float divisor = 100;
-        _slider.value = healthCount / divisor;
 
-        UpdateHealthVisibility(_slider.value);
-    }
-
-    public void UpdateHealthVisibility(float sliderVelue)
-    {
-        if (sliderVelue <= 0)
-            _slider.fillRect.gameObject.SetActive(false);
-        else
-            _slider.fillRect.gameObject.SetActive(true);
+        _slider.value = count / divisor;
+        _slider.fillRect.gameObject.SetActive(count <= 0);
     }
 }

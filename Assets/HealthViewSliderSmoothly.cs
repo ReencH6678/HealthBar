@@ -1,11 +1,19 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
-public class HealthViewSliderSmoothly : HealthViewSlider
+[RequireComponent(typeof(Slider))]
+public class HealthViewSliderSmoothly : HealthView
 {
     [SerializeField] private float _deley;
+    private Slider _slider;
 
-    override public void UpdateHealthView(float healthCount, float maxHealthCount)
+    private void Awake()
+    {
+        _slider = GetComponent<Slider>();
+    }
+
+    public override void UpdateHealthView(float healthCount, float maxHealthCount)
     {
         StopCoroutine(SmothLine(healthCount, maxHealthCount));
         StartCoroutine(SmothLine(healthCount, maxHealthCount));
@@ -21,13 +29,13 @@ public class HealthViewSliderSmoothly : HealthViewSlider
 
         var waitForSeconds = new WaitForSeconds(_deley);
 
+        _slider.fillRect.gameObject.SetActive(healthCount <= 0);
+
         if (healthCount <= maxHealCount)
         {
             for (int i = 0; i <= stepsCount; i++)
             {
                 _slider.value = Mathf.MoveTowards(_slider.value, targetVelue, step);
-
-                UpdateHealthVisibility(_slider.value);
 
                 yield return waitForSeconds;
             }

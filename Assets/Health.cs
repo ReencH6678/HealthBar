@@ -3,26 +3,32 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] private float _maxHealthCount;
-    public float HealthCount { get; private set; }
+    [SerializeField] private float _maxCount;
+    public float Count { get; private set; }
 
-    public event Action<float, float> OnHealthChange;
+    public event Action<float, float> Changed;
 
     private void Start()
     {
-        HealthCount = _maxHealthCount;
-        OnHealthChange?.Invoke(HealthCount, _maxHealthCount);
+        Count = _maxCount;
+        Changed?.Invoke(Count, _maxCount);
     }
 
     public void TakeDamage(float damage)
     {
-        HealthCount -= damage;
-        OnHealthChange?.Invoke(HealthCount, _maxHealthCount);
+        if (damage > 0)
+        {
+            Count -= damage;
+            Changed?.Invoke(Count, _maxCount);
+        }
     }
 
     public void Heal(float healCount)
     {
-        HealthCount += healCount;
-        OnHealthChange?.Invoke(HealthCount, _maxHealthCount);
+        if (healCount > 0)
+        {
+            Count += healCount;
+            Changed?.Invoke(Count, _maxCount);
+        }
     }
 }
